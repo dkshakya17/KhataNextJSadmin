@@ -52,7 +52,7 @@ justify-content: space-between;
 width: 100%;
 `;
 const Home = () => {
-  const [value, setValue] = useState('');
+  const [, setValue] = useState('');
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const userList = [
   { name: 'Carla Espinosa', title: 'Nurse', amount: '2000' },
