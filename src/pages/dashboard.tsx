@@ -115,7 +115,7 @@ const Home = () => {
           <Card size="Small" accent="Primary">
             <PartnerHead>
             <header>
-                 <Button appearance="outline" status="Primary">
+                 <Button appearance="outline" status="Primary" size="Small">
                     + Add 
                   </Button>
               <p><b>Partners</b></p>
