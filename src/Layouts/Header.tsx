@@ -37,11 +37,6 @@ const HeaderStyle = styled.div`
   }
 `;
 
-const Label = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
 // const SelectStyled = styled(Select)`
 //   min-width: 150px;
 // `;

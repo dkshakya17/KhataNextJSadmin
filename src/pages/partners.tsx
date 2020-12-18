@@ -123,13 +123,13 @@ const Partners = () => {
             <CardBody>
                  <List>
                  <ListItem>
-                 <PartHead><span>Net Outstanind Credit </span> <span> RS 15000</span></PartHead>
+                 <PartHead><span><b>Net Outstanind Credit </b></span> <span> RS 15000</span></PartHead>
                 </ListItem>
                 <ListItem>
-                <PartHead><span>Total Sale  </span> <span>Rs 2000000 </span></PartHead>
+                <PartHead><span><b>Total Sale </b> </span> <span>Rs 2000000 </span></PartHead>
                 </ListItem>
                 <ListItem>
-                <PartHead><span>Today Sale  </span> <span>Rs 1500</span></PartHead>
+                <PartHead><span><b>Today Sale </b> </span> <span>Rs 1500</span></PartHead>
                 </ListItem>
                  </List>
             </CardBody>
