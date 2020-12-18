@@ -44,9 +44,9 @@ const Label = styled.span`
   align-items: center;
 `;
 
-const SelectStyled = styled(Select)`
-  min-width: 150px;
-`;
+// const SelectStyled = styled(Select)`
+//   min-width: 150px;
+// `;
 
 interface HeaderProps {
   toggleSidebar: () => void;
