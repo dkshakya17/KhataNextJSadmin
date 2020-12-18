@@ -2,7 +2,6 @@
 import { List, ListItem } from '@paljs/ui/List';
 import { Card, CardBody, CardHeader, CardFooter  } from '@paljs/ui/Card';
 import User from '@paljs/ui/User';
-import { ActionType } from '@paljs/ui/Actions';
 import { Search } from '@paljs/ui/Search';
 import styled from 'styled-components';
 import Row from '@paljs/ui/Row';
@@ -57,7 +56,7 @@ p{
  }
 `;
 const Partners = () => {
-  const [value, setValue] = useState('');
+  const [, setValue] = useState('');
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const userList = [
   { name: 'Carla Espinosa', title: 'Nurse', amount: '2000' },
@@ -65,17 +64,6 @@ const Partners = () => {
     { name: 'Janitor', title: 'Janitor', amount: '5000' },
     { name: 'Perry Cox', title: 'Doctor of Medicine', amount: '20000' },
     { name: 'Ben Sullivan', title: 'Carpenter and photographer', amount: '21000' },
-  ];
-  const items: ActionType[] = [
-    {
-      icon: 'home',
-      disabled: true,
-      badge: {
-        status: 'Primary',
-        title: '22',
-        position: 'topStart',
-      },
-    }
   ];
   const inventoryList = [
     {
@@ -153,7 +141,7 @@ const Partners = () => {
               </table>
               </TableStyle>
               <CardFooter style={{ textAlign:"center",}}>
-                 <Button Small appearance="outline" status="Primary">
+                 <Button fullWidth appearance="outline" status="Primary">
                     + Add Items
                   </Button>
               </CardFooter>
@@ -168,7 +156,7 @@ const Partners = () => {
             <PartnerHead>
             <header>
               <p style={{fontSize:"18px"}}><b>Customers</b> </p>
-              <Button Small appearance="outline" status="Primary">
+              <Button fullWidth appearance="outline" status="Primary">
                     + Add Customer
                   </Button>
               <div style={{float:"right"}}>
