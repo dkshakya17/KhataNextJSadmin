@@ -1,16 +1,12 @@
 
 import { List, ListItem } from '@paljs/ui/List';
-import { Card, CardBody, CardHeader, CardFooter  } from '@paljs/ui/Card';
-import User from '@paljs/ui/User';
-import { Actions, ActionType } from '@paljs/ui/Actions';
-import { Search } from '@paljs/ui/Search';
+import { Card, CardBody, CardHeader  } from '@paljs/ui/Card';
 import styled from 'styled-components';
 import Row from '@paljs/ui/Row';
 import Col from '@paljs/ui/Col';
 import { Button } from '@paljs/ui/Button';
-import React, { useState }  from 'react';
+import React from 'react';
 import Layout from 'Layouts';
-import Link from 'next/link';
 
 const TableStyle = styled.div`
 display: -webkit-box;
