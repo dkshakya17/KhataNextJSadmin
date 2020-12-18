@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled, { DefaultTheme } from 'styled-components';
 import { LayoutHeader } from '@paljs/ui/Layout';
-import { EvaIcon } from '@paljs/ui/Icon';
 import { Actions } from '@paljs/ui/Actions';
 import ContextMenu from '@paljs/ui/ContextMenu';
 import User from '@paljs/ui/User';
