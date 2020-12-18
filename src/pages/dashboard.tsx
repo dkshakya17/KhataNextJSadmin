@@ -63,13 +63,8 @@ const Home = () => {
   ];
   const items: ActionType[] = [
     {
-      icon: 'home',
-      disabled: true,
-      badge: {
-        status: 'Primary',
-        title: '22',
-        position: 'topStart',
-      },
+      icon: 'refresh-outline',
+      disabled: false,
     }
   ];
   const transcList = [
@@ -117,7 +112,7 @@ const Home = () => {
       </Row>
       <Row>
       <Col breakPoint={{ xs: 12, md: 6 }}>
-          <Card size="Small">
+          <Card size="Small" accent="Primary">
             <PartnerHead>
             <header>
                  <Button Small appearance="outline" status="Primary">
@@ -142,8 +137,12 @@ const Home = () => {
           </Card>
         </Col>
         <Col breakPoint={{ xs: 12, md: 6 }}>
-          <Card size="Small">
-            <header className="text-center">Recent Trasactions  <Actions Link={Link} size="Large" actions={items} className="refresh_btn" /></header>
+          <Card size="Small" accent="Primary">
+            <header>Recent Trasactions  
+            <SearchCss>
+            <Actions Link={Link} size="Small" actions={items} className="refresh_btn"/>
+            </SearchCss>
+            </header>
            <TableStyle>
             <table className="trasactions_table">
               <tr>
