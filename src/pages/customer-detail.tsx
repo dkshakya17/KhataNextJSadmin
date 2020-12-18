@@ -33,24 +33,7 @@ width:100%;
   border-right: none;
  }
 `;
-const SearchCss = styled.div`
-  float: right;
-`;
-const PartnerHead = styled.div`
-header{
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: center;
-  padding:10px 20px;
-}
-`;
 
-const PartnerCss = styled.div`
-display: flex;
-justify-content: space-between;
-width: 100%;
-`;
 const PartHead = styled.div` 
 display: flex;
 justify-content: space-between;

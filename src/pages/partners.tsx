@@ -31,9 +31,6 @@ width:100%;
  border-bottom: 1px solid #ccc;
 }
 `;
-const SearchCss = styled.div`
-  float: right;
-`;
 const PartnerHead = styled.div`
 header{
   display: flex;
