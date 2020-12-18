@@ -115,10 +115,10 @@ const Home = () => {
           <Card size="Small" accent="Primary">
             <PartnerHead>
             <header>
-                 <Button Small appearance="outline" status="Primary">
+                 <Button appearance="outline" status="Primary">
                     + Add 
                   </Button>
-              <p><b>Partners</b> </p>
+              <p><b>Partners</b></p>
               <SearchCss>
                 <Search submit={(v) => submitHandle(v)} type={'column-curtain'} placeholder="Search..." hint="Hit Enter to search" className="search_icon" />
               </SearchCss> 
@@ -162,8 +162,7 @@ const Home = () => {
               </table>
               </TableStyle>
           </Card>
-        </Col>
-       
+        </Col> 
       </Row>
     </Layout>
 
