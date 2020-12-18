@@ -132,7 +132,7 @@ const Partners = () => {
                 <td>{invent.name}</td>
                 <td>{invent.units}</td>
                 <td>
-                <Button appearance="outline" status="Primary">
+                <Button appearance="outline" size="Small" status="Primary">
                     Edit
                   </Button>
                 </td>
@@ -141,7 +141,7 @@ const Partners = () => {
               </table>
               </TableStyle>
               <CardFooter style={{ textAlign:"center",}}>
-                 <Button fullWidth appearance="outline" status="Primary">
+                 <Button appearance="outline" size="Small" status="Primary">
                     + Add Items
                   </Button>
               </CardFooter>
@@ -156,7 +156,7 @@ const Partners = () => {
             <PartnerHead>
             <header>
               <p style={{fontSize:"18px"}}><b>Customers</b> </p>
-              <Button fullWidth appearance="outline" status="Primary">
+              <Button appearance="outline" size="Small" status="Primary">
                     + Add Customer
                   </Button>
               <div style={{float:"right"}}>
