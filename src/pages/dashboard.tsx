@@ -2,6 +2,7 @@
 import { List, ListItem } from '@paljs/ui/List';
 import { Card, CardBody, CardHeader, CardFooter  } from '@paljs/ui/Card';
 import User from '@paljs/ui/User';
+import 'reactjs-popup/dist/index.css';
 import { Actions, ActionType } from '@paljs/ui/Actions';
 import { Search } from '@paljs/ui/Search';
 import styled from 'styled-components';
@@ -9,7 +10,9 @@ import Row from '@paljs/ui/Row';
 import Col from '@paljs/ui/Col';
 import { Button } from '@paljs/ui/Button';
 import React, { useState }  from 'react';
+import Popup from 'reactjs-popup';
 import Layout from 'Layouts';
+import { InputGroup } from '@paljs/ui/Input';
 import Link from 'next/link';
 
 const TableStyle = styled.div`
@@ -50,16 +53,17 @@ const PartnerCss = styled.div`
 display: flex;
 justify-content: space-between;
 width: 100%;
+cursor:pointer;
 `;
 const Home = () => {
   const [, setValue] = useState('');
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const userList = [
-  { name: 'Carla Espinosa', title: 'Nurse', amount: '2000' },
-    { name: 'Bob Kelso', title: 'Doctor of Medicine', amount: '4000' },
-    { name: 'Janitor', title: 'Janitor', amount: '5000' },
-    { name: 'Perry Cox', title: 'Doctor of Medicine', amount: '20000' },
-    { name: 'Ben Sullivan', title: 'Carpenter and photographer', amount: '21000' },
+  { name: 'Carla Espinosa', amount: '2000' },
+    { name: 'Bob Kelso', amount: '4000' },
+    { name: 'Janitor',amount: '5000' },
+    { name: 'Perry Cox', amount: '20000' },
+    { name: 'Ben Sullivan', amount: '21000' },
   ];
   const items: ActionType[] = [
     {
@@ -115,9 +119,39 @@ const Home = () => {
           <Card size="Small" accent="Primary">
             <PartnerHead>
             <header>
-                 <Button appearance="outline" status="Primary" size="Small">
+                
+                  <Popup
+                    trigger={ <Button appearance="outline" status="Primary" size="Small">
                     + Add 
-                  </Button>
+                  </Button>}
+                    modal
+                    nested
+                  >
+                {close => (
+                  <div className="modal popup_modal">
+                    <div className="modal_head">
+                    
+                    <div className="popup_heading"> Add Partner </div>
+                    <Button appearance="outline" status="Primary" onClick={close} size="Small" className="close">
+                    &times;
+                    </Button>
+                    </div>
+                    <div className="content">
+                     <form action="submit" className="add_form">
+                     <InputGroup fullWidth>
+                      <input type="text" placeholder="Partner Name" />
+                    </InputGroup>
+                    <InputGroup fullWidth>
+                      <input type="number" placeholder="Phone Number" />
+                    </InputGroup>
+                     </form>
+                    </div>
+                    <div className="actions button_sbmit">
+                      <Button appearance="outline" status="Primary" onClick={close} size="Small" className="close">Submit</Button>
+                    </div>
+                  </div>
+                )}
+            </Popup>
               <p><b>Partners</b></p>
               <SearchCss>
                 <Search submit={(v) => submitHandle(v)} type={'column-curtain'} placeholder="Search..." hint="Hit Enter to search" className="search_icon" />
@@ -126,12 +160,14 @@ const Home = () => {
             </PartnerHead>
             <List>
               {userList.map((user, index) => (
-                <ListItem key={index}>
+                <Link href="/partners">
+                <ListItem key={index} className="partnertile">
                   <PartnerCss>
-                  <User title={user.title} name={user.name} />
+                  <User name={user.name} />
                   <div className="usramount">(Rs {user.amount})</div>
                   </PartnerCss> 
                 </ListItem>
+                </Link>
               ))}
             </List>
           </Card>

@@ -1,0 +1,36 @@
+
+.partnertile{
+    cursor: pointer;
+}
+.partnertile:hover {
+    background: #e6ebf1;
+}
+.partnertile>div{
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+/* modal css*/
+
+.modal.popup_modal {
+    padding: 20px;
+}
+.modal_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.popup_heading {
+    font-size: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+form.add_form>div {
+    margin-bottom: 15px;
+}
+.actions.button_sbmit {
+    width: 100%;
+    text-align: center;
+}
