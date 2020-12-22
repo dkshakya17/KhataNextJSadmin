@@ -17,7 +17,10 @@ import SEO, { SEOProps } from 'components/SEO';
 const getDefaultTheme = (): DefaultTheme['name'] => {
   if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
     return localStorage.getItem('theme') as DefaultTheme['name'];
-  } 
+  } else {
+    const hours = new Date().getHours();
+    return hours > 6 && hours < 19 ? 'default' : 'default';
+  }
 };
 
 const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
