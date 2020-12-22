@@ -8,6 +8,8 @@ import Row from '@paljs/ui/Row';
 import Col from '@paljs/ui/Col';
 import { Button } from '@paljs/ui/Button';
 import React, { useState }  from 'react';
+import Link from 'next/link';
+
 import Layout from 'Layouts';
 const TableStyle = styled.div`
 display: -webkit-box;
@@ -59,11 +61,11 @@ const Partners = () => {
   const [, setValue] = useState('');
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const userList = [
-  { name: 'Carla Espinosa', title: 'Nurse', amount: '2000' },
-    { name: 'Bob Kelso', title: 'Doctor of Medicine', amount: '4000' },
-    { name: 'Janitor', title: 'Janitor', amount: '5000' },
-    { name: 'Perry Cox', title: 'Doctor of Medicine', amount: '20000' },
-    { name: 'Ben Sullivan', title: 'Carpenter and photographer', amount: '21000' },
+  { name: 'Carla Espinosa',  amount: '2000' },
+    { name: 'Bob Kelso', amount: '4000' },
+    { name: 'Janitor', amount: '5000' },
+    { name: 'Perry Cox', amount: '20000' },
+    { name: 'Ben Sullivan', amount: '21000' },
   ];
   const inventoryList = [
     {
@@ -173,12 +175,14 @@ const Partners = () => {
                   </PartnerCss> 
                 </ListItem>
               {userList.map((user, index) => (
-                <ListItem key={index}>
+                <Link href="/customer-detail">
+                <ListItem key={index} className="partnertile">
                   <PartnerCss>
-                  <User title={user.title} name={user.name} />
+                  <User name={user.name} />
                   <div className="usramount">(Rs {user.amount})</div>
                   </PartnerCss> 
                 </ListItem>
+                </Link>
               ))}
             </List>
           </Card>
@@ -194,11 +198,13 @@ const Partners = () => {
                 <th>Cash Received</th>
               </tr>
               {transcList.map((transc, index) => (
-              <tr key={index}>
+                <Link href="/daywise-data"> 
+                <tr key={index} className="partnertile">
                 <td>{transc.date}</td>
                 <td>{transc.sale}</td>
                 <td>{transc.cash}</td>
               </tr>
+              </Link>
                 ))}
               </table>
               </TableStyle>

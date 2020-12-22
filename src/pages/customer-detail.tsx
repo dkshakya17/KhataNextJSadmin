@@ -56,7 +56,7 @@ const CustomerDetails = () => {
    
   ];
   return (
-    <Layout title="Partners">
+    <Layout title="Customer Detail">
       <Row>
       <Col breakPoint={{ xs: 12, md: 6 }}>
         <Card accent="Primary" style={{minHeight:"200px"}}>

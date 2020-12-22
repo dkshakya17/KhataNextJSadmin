@@ -45,7 +45,7 @@ const DayWiseData = () => {
    
   ];
   return (
-    <Layout title="Partners">
+    <Layout title="Day Wise Data">
       <Row>
       <Col breakPoint={{ xs: 12, md: 12 }}>
           <Card status="Primary">
