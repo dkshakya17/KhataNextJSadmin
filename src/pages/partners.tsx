@@ -57,7 +57,7 @@ p{
     margin:0;
  }
 `;
-const Partners = () => {
+const Partners = ({inventoryList}) => {
   const [, setValue] = useState('');
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const userList = [
@@ -67,24 +67,24 @@ const Partners = () => {
     { name: 'Perry Cox', amount: '20000' },
     { name: 'Ben Sullivan', amount: '21000' },
   ];
-  const inventoryList = [
-    {
-    name: 'Apple',
-    units:[ 'Kg','Crate','Pieces' ] 
-    },
-    {
-        name: 'Banana',
-        units:[ 'Kg','Crate','Pieces' ] 
-    },
-    {
-        name: 'Orange',
-        units:[ 'Kg','Crate','Pieces' ] 
-     },
-     {
-        name: 'Pinaple',
-        units:[ 'Kg','Crate','Pieces' ] 
-     }
-  ];
+  // const inventoryList = [
+  //   {
+  //   name: 'Apple',
+  //   units:[ 'Kg','Crate','Pieces' ] 
+  //   },
+  //   {
+  //       name: 'Banana',
+  //       units:[ 'Kg','Crate','Pieces' ] 
+  //   },
+  //   {
+  //       name: 'Orange',
+  //       units:[ 'Kg','Crate','Pieces' ] 
+  //    },
+  //    {
+  //       name: 'Pinaple',
+  //       units:[ 'Kg','Crate','Pieces' ] 
+  //    }
+  // ];
 
   const transcList = [
     { date: '9th Dec', sale: '40000', cash: '35000' },
@@ -129,7 +129,7 @@ const Partners = () => {
             </CardHeader>
            <TableStyle>
             <table className="trasactions_table">
-              {inventoryList.map((invent, index) => (
+              {/* {inventoryList.map((invent, index) => (
               <tr key={index}>
                 <td>{invent.name}</td>
                 <td>{invent.units}</td>
@@ -139,7 +139,7 @@ const Partners = () => {
                   </Button>
                 </td>
               </tr>
-                ))}
+                ))} */}
               </table>
               </TableStyle>
               <CardFooter style={{ textAlign:"center",}}>
@@ -158,7 +158,7 @@ const Partners = () => {
             <PartnerHead>
             <header>
               <p style={{fontSize:"18px"}}><b>Customers</b> </p>
-              <Button appearance="outline" size="Small" status="Primary">
+              <Button appearance="outline" size="Small" status="Primary" >
                     + Add Customer
                   </Button>
               <div style={{float:"right"}}>
@@ -216,4 +216,25 @@ const Partners = () => {
  
   );
 };
+
+// This function gets called at build time on server-side.
+// It won't be called on client-side, so you can even do
+// direct database queries. See the "Technical details" section.
+export async function getInventoryList() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const res = await fetch('http://3.7.70.121:8080/inventory/items?distributorId=1')
+  const inventoryList = await res.json()
+
+  console.log("inventoryList = ", inventoryList);
+  
+  // By returning { props: posts }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      inventoryList,
+    },
+  }
+}
+
 export default Partners;

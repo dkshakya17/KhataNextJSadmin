@@ -55,7 +55,7 @@ justify-content: space-between;
 width: 100%;
 cursor:pointer;
 `;
-const Home = () => {
+const Home = ({response}) => {
   const [, setValue] = useState('');
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const userList = [
@@ -187,12 +187,12 @@ const Home = () => {
                 <th>Quantity</th>
                 <th>Price</th>
               </tr>
-              {transcList.map((transc, index) => (
+              {response.map((transc, index) => (
               <tr key={index}>
                 <td>{transc.name}</td>
-                <td>{transc.item}</td>
-                <td>{transc.quantity}</td>
-                <td>{transc.Price}</td>
+                <td>{transc.mobileNo}</td>
+                <td>{transc.totalSale}</td>
+                <td>{transc.totalCashReceived}</td>
               </tr>
                 ))}
               </table>
@@ -204,4 +204,25 @@ const Home = () => {
 
   );
 };
+
+// This function gets called at build time on server-side.
+// It won't be called on client-side, so you can even do
+// direct database queries. See the "Technical details" section.
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const res = await fetch('http://3.7.70.121:8080/distributor/list/customer?distributorId=1')
+  const response = await res.json()
+
+  // console.log("response = ", response);
+  
+  // By returning { props: posts }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      response,
+    },
+  }
+}
+
 export default Home;
