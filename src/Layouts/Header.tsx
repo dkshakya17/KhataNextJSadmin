@@ -1,18 +1,18 @@
-import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import styled, { DefaultTheme } from 'styled-components';
-import { LayoutHeader } from '@paljs/ui/Layout';
-import { Actions } from '@paljs/ui/Actions';
-import ContextMenu from '@paljs/ui/ContextMenu';
-import User from '@paljs/ui/User';
-import { breakpointDown } from '@paljs/ui/breakpoints';
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import styled, { DefaultTheme } from "styled-components";
+import { LayoutHeader } from "@paljs/ui/Layout";
+import { Actions } from "@paljs/ui/Actions";
+import ContextMenu from "@paljs/ui/ContextMenu";
+import User from "@paljs/ui/User";
+import { breakpointDown } from "@paljs/ui/breakpoints";
 
 const HeaderStyle = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  ${breakpointDown('sm')`
+  ${breakpointDown("sm")`
     .right{
       display: none;
     }
@@ -37,18 +37,14 @@ const HeaderStyle = styled.div`
   }
 `;
 
-// const SelectStyled = styled(Select)`
-//   min-width: 150px;
-// `;
-
 interface HeaderProps {
   toggleSidebar: () => void;
   theme: {
-    set: (value: DefaultTheme['name']) => void;
-    value: DefaultTheme['name'];
+    set: (value: DefaultTheme["name"]) => void;
+    value: DefaultTheme["name"];
   };
   changeDir: () => void;
-  dir: 'rtl' | 'ltr';
+  dir: "rtl" | "ltr";
 }
 
 const Header: React.FC<HeaderProps> = (props) => {
@@ -60,7 +56,7 @@ const Header: React.FC<HeaderProps> = (props) => {
           size="Medium"
           actions={[
             {
-              icon: { name: 'menu-2-outline' },
+              icon: { name: "menu-2-outline" },
               url: {
                 onClick: props.toggleSidebar,
               },
@@ -71,8 +67,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                   <a className="logo">Khata Admin</a>
                 </Link>
               ),
-            }
-           
+            },
           ]}
         />
         <Actions
@@ -83,16 +78,24 @@ const Header: React.FC<HeaderProps> = (props) => {
               content: (
                 <ContextMenu
                   nextJs
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                   placement="bottom"
                   currentPath={router.pathname}
                   items={[
-                    { title: 'Profile', link: { href: '/modal-overlays/tooltip' } },
-                    { title: 'Log out', link: { href: '/logout' } },
+                    {
+                      title: "Profile",
+                      link: { href: "/modal-overlays/tooltip" },
+                    },
+                    { title: "Log out", link: { href: "/logout" } },
                   ]}
                   Link={Link}
                 >
-                  <User image="url('/icons/icon-72x72.png')" name="Ahmed Elywa" title="Manger" size="Medium" />
+                  <User
+                    image="url('/icons/icon-72x72.png')"
+                    name="Ahmed Elywa"
+                    title="Manger"
+                    size="Medium"
+                  />
                 </ContextMenu>
               ),
             },

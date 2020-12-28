@@ -6,10 +6,14 @@ import styled from "styled-components";
 import Row from "@paljs/ui/Row";
 import Col from "@paljs/ui/Col";
 import { Button } from "@paljs/ui/Button";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import Popup from "reactjs-popup";
+import { InputGroup } from "@paljs/ui/Input";
+import axios from "axios";
 
 import Layout from "Layouts";
+
 const TableStyle = styled.div`
   display: -webkit-box;
   display: -webkit-flex;
@@ -57,9 +61,42 @@ const PartHead = styled.div`
     margin: 0;
   }
 `;
+
+const headers = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+};
+
 const Partners = ({ inventoryList, customers, distributor }) => {
   const [, setValue] = useState("");
   const submitHandle = (sentValue: string) => setValue(sentValue);
+  const [modifiedData, setModifiedData] = useState({
+    distributorId: "",
+    name: "",
+    mobileNo: "",
+  });
+
+  const handleChange = ({ target: { name, value } }) => {
+    setModifiedData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://3.7.70.121:8080/distributor/add/customer",
+        modifiedData,
+        { headers: headers }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const transcList = [
     { date: "9th Dec", sale: "40000", cash: "35000" },
@@ -156,9 +193,76 @@ const Partners = ({ inventoryList, customers, distributor }) => {
                 <p style={{ fontSize: "18px" }}>
                   <b>Customers</b>{" "}
                 </p>
-                <Button appearance="outline" size="Small" status="Primary">
-                  + Add Customer
-                </Button>
+                <Popup
+                  trigger={
+                    <Button appearance="outline" size="Small" status="Primary">
+                      + Add Customer
+                    </Button>
+                  }
+                  modal
+                  nested
+                >
+                  {(close) => (
+                    <div className="modal popup_modal">
+                      <div className="modal_head">
+                        <div className="popup_heading"> Add Customer </div>
+                        <Button
+                          appearance="outline"
+                          status="Primary"
+                          onClick={close}
+                          size="Small"
+                          className="close"
+                        >
+                          &times;
+                        </Button>
+                      </div>
+                      <div className="content">
+                        <form action="submit" className="add_form">
+                          <InputGroup fullWidth>
+                            <input
+                              type="number"
+                              placeholder="Distributor Id"
+                              name="distributorId"
+                              value={modifiedData.distributorId}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup fullWidth>
+                            <input
+                              type="text"
+                              placeholder="Partner Name"
+                              name="name"
+                              value={modifiedData.name}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup fullWidth>
+                            <input
+                              type="number"
+                              placeholder="Phone Number"
+                              name="mobileNo"
+                              value={modifiedData.mobileNo}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                        </form>
+                      </div>
+                      <div className="actions button_sbmit">
+                        <Button
+                          appearance="outline"
+                          status="Primary"
+                          onClick={(event) => {
+                            handleSubmit(event);
+                            close();
+                          }}
+                          size="Small"
+                        >
+                          Submit
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </Popup>
                 <div style={{ float: "right" }}>
                   <Search
                     submit={(v) => submitHandle(v)}
@@ -227,18 +331,14 @@ const Partners = ({ inventoryList, customers, distributor }) => {
 };
 
 // This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries. See the "Technical details" section.
 export async function getStaticProps() {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
   const res = await fetch(
     "http://3.7.70.121:8080/inventory/items?distributorId=1"
   );
   const inventoryList = await res.json();
 
   const customersRes = await fetch(
-    "http://3.7.70.121:8080/distributor/list/customer?distributorId=1"
+    "http://3.7.70.121:8080/distributor/list/customer?distributorId=2"
   );
   const customers = await customersRes.json();
 

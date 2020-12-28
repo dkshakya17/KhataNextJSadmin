@@ -55,40 +55,35 @@ const PartnerCss = styled.div`
   width: 100%;
   cursor: pointer;
 `;
+
 const Home = ({ partners }) => {
   const [, setValue] = useState("");
   const submitHandle = (sentValue: string) => setValue(sentValue);
-  const userList = [
-    { name: "Carla Espinosa", amount: "2000" },
-    { name: "Bob Kelso", amount: "4000" },
-    { name: "Janitor", amount: "5000" },
-    { name: "Perry Cox", amount: "20000" },
-    { name: "Ben Sullivan", amount: "21000" },
-  ];
+  const [modifiedData, setModifiedData] = useState({
+    name: "",
+    phoneNumber: "",
+  });
+
+  const handleChange = ({ target: { name, value } }) => {
+    setModifiedData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const items: ActionType[] = [
     {
       icon: "refresh-outline",
       disabled: false,
     },
   ];
-  const transcList = [
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-    { name: "Deepak", item: "Lemons", quantity: "5Kg", Price: "200" },
-  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log("modifiedData = ", modifiedData);
+  };
+
   return (
     <Layout title="Home">
       <Row>
@@ -145,10 +140,22 @@ const Home = ({ partners }) => {
                       <div className="content">
                         <form action="submit" className="add_form">
                           <InputGroup fullWidth>
-                            <input type="text" placeholder="Partner Name" />
+                            <input
+                              type="text"
+                              placeholder="Partner Name"
+                              name="name"
+                              value={modifiedData.name}
+                              onChange={handleChange}
+                            />
                           </InputGroup>
                           <InputGroup fullWidth>
-                            <input type="number" placeholder="Phone Number" />
+                            <input
+                              type="number"
+                              placeholder="Phone Number"
+                              name="phoneNumber"
+                              value={modifiedData.phoneNumber}
+                              onChange={handleChange}
+                            />
                           </InputGroup>
                         </form>
                       </div>
@@ -156,9 +163,11 @@ const Home = ({ partners }) => {
                         <Button
                           appearance="outline"
                           status="Primary"
-                          onClick={close}
+                          onClick={(event) => {
+                            handleSubmit(event);
+                            close();
+                          }}
                           size="Small"
-                          className="close"
                         >
                           Submit
                         </Button>
@@ -233,26 +242,14 @@ const Home = ({ partners }) => {
 };
 
 // This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries. See the "Technical details" section.
 export async function getStaticProps() {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  // const res = await fetch('http://3.7.70.121:8080/distributor/list/customer?distributorId=1')
-  // const response = await res.json()
-
   const partnersRes = await fetch(
     "http://3.7.70.121:8080/distributor/list/customer?distributorId=1"
   );
   const partners = await partnersRes.json();
 
-  // console.log("partners = ", partners);
-
-  // By returning { props: posts }, the Blog component
-  // will receive `posts` as a prop at build time
   return {
     props: {
-      // response,
       partners,
     },
   };
