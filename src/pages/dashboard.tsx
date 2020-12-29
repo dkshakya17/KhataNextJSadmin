@@ -13,6 +13,7 @@ import Popup from "reactjs-popup";
 import Layout from "Layouts";
 import { InputGroup } from "@paljs/ui/Input";
 import Link from "next/link";
+import axios from "axios";
 
 const TableStyle = styled.div`
   display: -webkit-box;
@@ -56,12 +57,20 @@ const PartnerCss = styled.div`
   cursor: pointer;
 `;
 
-const Home = ({ partners }) => {
+const headers = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+};
+
+const Home = ({ partners, recentTransaction }) => {
   const [, setValue] = useState("");
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const [modifiedData, setModifiedData] = useState({
     name: "",
-    phoneNumber: "",
+    mobileNo: "",
+    password: "",
+    address: "",
+    city: "",
   });
 
   const handleChange = ({ target: { name, value } }) => {
@@ -82,6 +91,17 @@ const Home = ({ partners }) => {
     e.preventDefault();
 
     console.log("modifiedData = ", modifiedData);
+
+    try {
+      const response = await axios.post(
+        "https://dev.onato.in:8080/distributor/add",
+        modifiedData,
+        { headers: headers }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -152,8 +172,35 @@ const Home = ({ partners }) => {
                             <input
                               type="number"
                               placeholder="Phone Number"
-                              name="phoneNumber"
-                              value={modifiedData.phoneNumber}
+                              name="mobileNo"
+                              value={modifiedData.mobileNo}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup fullWidth>
+                            <input
+                              type="text"
+                              placeholder="Password"
+                              name="password"
+                              value={modifiedData.password}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup fullWidth>
+                            <input
+                              type="text"
+                              placeholder="Address"
+                              name="address"
+                              value={modifiedData.address}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup fullWidth>
+                            <input
+                              type="text"
+                              placeholder="City"
+                              name="city"
+                              value={modifiedData.city}
                               onChange={handleChange}
                             />
                           </InputGroup>
@@ -224,12 +271,12 @@ const Home = ({ partners }) => {
                   <th>Quantity</th>
                   <th>Price</th>
                 </tr>
-                {partners.map((transc, index) => (
+                {recentTransaction.map((transc, index) => (
                   <tr key={index}>
-                    <td>{transc.name}</td>
-                    <td>{transc.mobileNo}</td>
-                    <td>{transc.totalSale}</td>
-                    <td>{transc.totalCashReceived}</td>
+                    <td>{transc.distributorName}</td>
+                    <td>{transc.item}</td>
+                    <td>{transc.quantiy}</td>
+                    <td>{transc.pricePerUnit}</td>
                   </tr>
                 ))}
               </table>
@@ -243,14 +290,18 @@ const Home = ({ partners }) => {
 
 // This function gets called at build time on server-side.
 export async function getStaticProps() {
-  const partnersRes = await fetch(
-    "http://3.7.70.121:8080/distributor/list/customer?distributorId=1"
-  );
+  const partnersRes = await fetch("https://dev.onato.in:8080/distributor/list");
   const partners = await partnersRes.json();
+
+  const recentTransactionRes = await fetch(
+    "https://dev.onato.in:8080/transaction/recent?fromId=-1&pageSize=10"
+  );
+  const recentTransaction = await recentTransactionRes.json();
 
   return {
     props: {
       partners,
+      recentTransaction,
     },
   };
 }

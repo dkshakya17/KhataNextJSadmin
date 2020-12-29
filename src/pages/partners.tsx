@@ -88,7 +88,7 @@ const Partners = ({ inventoryList, customers, distributor }) => {
 
     try {
       const response = await axios.post(
-        "http://3.7.70.121:8080/distributor/add/customer",
+        "https://dev.onato.in:8080/distributor/add/customer",
         modifiedData,
         { headers: headers }
       );
@@ -333,17 +333,17 @@ const Partners = ({ inventoryList, customers, distributor }) => {
 // This function gets called at build time on server-side.
 export async function getStaticProps() {
   const res = await fetch(
-    "http://3.7.70.121:8080/inventory/items?distributorId=1"
+    "https://dev.onato.in:8080/inventory/items?distributorId=1"
   );
   const inventoryList = await res.json();
 
   const customersRes = await fetch(
-    "http://3.7.70.121:8080/distributor/list/customer?distributorId=2"
+    "https://dev.onato.in:8080/distributor/list/customer?distributorId=2"
   );
   const customers = await customersRes.json();
 
   const distributorRes = await fetch(
-    "http://3.7.70.121:8080/distributor/id?distributorId=1"
+    "https://dev.onato.in:8080/distributor/id?distributorId=1"
   );
   const distributor = await distributorRes.json();
 
