@@ -8,12 +8,14 @@ import styled from "styled-components";
 import Row from "@paljs/ui/Row";
 import Col from "@paljs/ui/Col";
 import { Button } from "@paljs/ui/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 import Layout from "Layouts";
 import { InputGroup } from "@paljs/ui/Input";
 import Link from "next/link";
 import axios from "axios";
+import { connect } from "react-redux";
+import { getRecentTransaction, getDistributor } from "../reduxFiles/actions";
 
 const TableStyle = styled.div`
   display: -webkit-box;
@@ -62,7 +64,20 @@ const headers = {
   "Access-Control-Allow-Origin": "*",
 };
 
-const Home = ({ partners, recentTransaction }) => {
+const actionCreators = { getRecentTransaction, getDistributor };
+
+const mapStateToProps = (state) => ({
+  recentTransactions: state.dashboard.recentTransactions,
+  partners: state.dashboard.distributors,
+});
+
+const Home = (props) => {
+  const {
+    recentTransactions,
+    partners,
+    getRecentTransaction,
+    getDistributor,
+  } = props;
   const [, setValue] = useState("");
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const [modifiedData, setModifiedData] = useState({
@@ -72,6 +87,11 @@ const Home = ({ partners, recentTransaction }) => {
     address: "",
     city: "",
   });
+
+  useEffect(() => {
+    getRecentTransaction();
+    getDistributor();
+  }, []);
 
   const handleChange = ({ target: { name, value } }) => {
     setModifiedData((prev) => ({
@@ -89,8 +109,6 @@ const Home = ({ partners, recentTransaction }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("modifiedData = ", modifiedData);
 
     try {
       const response = await axios.post(
@@ -271,7 +289,7 @@ const Home = ({ partners, recentTransaction }) => {
                   <th>Quantity</th>
                   <th>Price</th>
                 </tr>
-                {recentTransaction.map((transc, index) => (
+                {recentTransactions.map((transc, index) => (
                   <tr key={index}>
                     <td>{transc.distributorName}</td>
                     <td>{transc.item}</td>
@@ -288,22 +306,4 @@ const Home = ({ partners, recentTransaction }) => {
   );
 };
 
-// This function gets called at build time on server-side.
-export async function getStaticProps() {
-  const partnersRes = await fetch("https://dev.onato.in:8080/distributor/list");
-  const partners = await partnersRes.json();
-
-  const recentTransactionRes = await fetch(
-    "https://dev.onato.in:8080/transaction/recent?fromId=-1&pageSize=10"
-  );
-  const recentTransaction = await recentTransactionRes.json();
-
-  return {
-    props: {
-      partners,
-      recentTransaction,
-    },
-  };
-}
-
-export default Home;
+export default connect(mapStateToProps, actionCreators)(Home);
