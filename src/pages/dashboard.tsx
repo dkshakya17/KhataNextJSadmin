@@ -8,11 +8,14 @@ import styled from "styled-components";
 import Row from "@paljs/ui/Row";
 import Col from "@paljs/ui/Col";
 import { Button } from "@paljs/ui/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 import Layout from "Layouts";
 import { InputGroup } from "@paljs/ui/Input";
 import Link from "next/link";
+import axios from "axios";
+import { connect } from "react-redux";
+import { getRecentTransaction, getDistributor } from "../reduxFiles/actions";
 
 const TableStyle = styled.div`
   display: -webkit-box;
@@ -56,13 +59,39 @@ const PartnerCss = styled.div`
   cursor: pointer;
 `;
 
-const Home = ({ partners }) => {
+const headers = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+};
+
+const actionCreators = { getRecentTransaction, getDistributor };
+
+const mapStateToProps = (state) => ({
+  recentTransactions: state.dashboard.recentTransactions,
+  partners: state.dashboard.distributors,
+});
+
+const Home = (props) => {
+  const {
+    recentTransactions,
+    partners,
+    getRecentTransaction,
+    getDistributor,
+  } = props;
   const [, setValue] = useState("");
   const submitHandle = (sentValue: string) => setValue(sentValue);
   const [modifiedData, setModifiedData] = useState({
     name: "",
-    phoneNumber: "",
+    mobileNo: "",
+    password: "",
+    address: "",
+    city: "",
   });
+
+  useEffect(() => {
+    getRecentTransaction();
+    getDistributor();
+  }, []);
 
   const handleChange = ({ target: { name, value } }) => {
     setModifiedData((prev) => ({
@@ -81,7 +110,16 @@ const Home = ({ partners }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("modifiedData = ", modifiedData);
+    try {
+      const response = await axios.post(
+        "https://dev.onato.in:8080/distributor/add",
+        modifiedData,
+        { headers: headers }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -152,8 +190,35 @@ const Home = ({ partners }) => {
                             <input
                               type="number"
                               placeholder="Phone Number"
-                              name="phoneNumber"
-                              value={modifiedData.phoneNumber}
+                              name="mobileNo"
+                              value={modifiedData.mobileNo}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup fullWidth>
+                            <input
+                              type="text"
+                              placeholder="Password"
+                              name="password"
+                              value={modifiedData.password}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup fullWidth>
+                            <input
+                              type="text"
+                              placeholder="Address"
+                              name="address"
+                              value={modifiedData.address}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup fullWidth>
+                            <input
+                              type="text"
+                              placeholder="City"
+                              name="city"
+                              value={modifiedData.city}
                               onChange={handleChange}
                             />
                           </InputGroup>
@@ -224,12 +289,12 @@ const Home = ({ partners }) => {
                   <th>Quantity</th>
                   <th>Price</th>
                 </tr>
-                {partners.map((transc, index) => (
+                {recentTransactions.map((transc, index) => (
                   <tr key={index}>
-                    <td>{transc.name}</td>
-                    <td>{transc.mobileNo}</td>
-                    <td>{transc.totalSale}</td>
-                    <td>{transc.totalCashReceived}</td>
+                    <td>{transc.distributorName}</td>
+                    <td>{transc.item}</td>
+                    <td>{transc.quantiy}</td>
+                    <td>{transc.pricePerUnit}</td>
                   </tr>
                 ))}
               </table>
@@ -241,18 +306,4 @@ const Home = ({ partners }) => {
   );
 };
 
-// This function gets called at build time on server-side.
-export async function getStaticProps() {
-  const partnersRes = await fetch(
-    "http://3.7.70.121:8080/distributor/list/customer?distributorId=1"
-  );
-  const partners = await partnersRes.json();
-
-  return {
-    props: {
-      partners,
-    },
-  };
-}
-
-export default Home;
+export default connect(mapStateToProps, actionCreators)(Home);
